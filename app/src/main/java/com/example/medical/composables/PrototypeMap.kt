@@ -1,5 +1,6 @@
 package com.example.medical.composables
 
+import android.content.Intent
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
@@ -16,11 +17,13 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.medical.R
+import com.example.medical.ui.RegisterActivity2
 import com.example.medical.ui.theme.GrayLight
 import com.example.medical.ui.theme.PrimaryColor
 
@@ -30,16 +33,10 @@ fun PrototypeMap() {
     Box(modifier = Modifier.fillMaxSize())
     {
         Background()
-        Title()
         MapClickable()
     }
 }
 
-@Composable
-fun Title() {
-
-
-}
 
 
 @Composable
@@ -68,10 +65,11 @@ fun Background() {
     }
 }
 
+
 @Composable
 fun MapClickable() {
+    val context = LocalContext.current
     Column(
-
         modifier = Modifier.fillMaxSize(), verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     )
@@ -84,11 +82,13 @@ fun MapClickable() {
 
             )
         Spacer(modifier = Modifier.height(8.dp))
-        Row (
+        Row(
             horizontalArrangement = Arrangement.spacedBy(8.dp),
-            ){
+        ) {
             OutlinedButton(
                 onClick = {
+                    val intent = Intent(context, RegisterActivity2::class.java)
+                    context.startActivity(intent)
                 },
                 border = BorderStroke(1.dp, GrayLight),
                 shape = RoundedCornerShape(8.dp)
@@ -112,9 +112,9 @@ fun MapClickable() {
                 Text("Nurse", color = PrimaryColor)
             }
         }
-        Row (
+        Row(
             horizontalArrangement = Arrangement.spacedBy(8.dp),
-        ){
+        ) {
             OutlinedButton(
                 onClick = {
                 },
