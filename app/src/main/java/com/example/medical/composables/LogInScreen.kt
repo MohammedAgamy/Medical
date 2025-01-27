@@ -1,5 +1,12 @@
 package com.example.medical.composables
 
+import android.content.Intent
+import androidx.compose.animation.core.LinearEasing
+import androidx.compose.animation.core.RepeatMode
+import androidx.compose.animation.core.animateFloat
+import androidx.compose.animation.core.infiniteRepeatable
+import androidx.compose.animation.core.rememberInfiniteTransition
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -19,6 +26,7 @@ import androidx.compose.material3.ButtonColors
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
+import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
@@ -31,7 +39,9 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.AbsoluteAlignment
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
@@ -40,20 +50,26 @@ import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.core.content.ContextCompat.startActivity
+import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavHostController
 import com.example.medical.R
 import com.example.medical.info.LoginState
 import com.example.medical.model.LoginViewModel
+import com.example.medical.ui.HomeActivity
 import com.example.medical.ui.theme.Black
 import com.example.medical.ui.theme.GrayLight
 import com.example.medical.ui.theme.PrimaryColor
+import kotlinx.coroutines.DelicateCoroutinesApi
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 
 @Composable
-fun LogInScreen(viewModel: LoginViewModel ,navController: NavHostController) {
+fun LogInScreen(viewModel: LoginViewModel, navController: NavHostController) {
     Box(modifier = Modifier.fillMaxSize())
     {
         BackgroundLogIn()
-        LoginFiled(viewModel ,navController)
+        LoginFiled(viewModel, navController)
     }
 }
 
@@ -86,7 +102,7 @@ fun BackgroundLogIn() {
 
 
 @Composable
-fun LoginFiled(viewModel: LoginViewModel ,navController: NavHostController) {
+fun LoginFiled(viewModel: LoginViewModel, navController: NavHostController) {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -108,10 +124,11 @@ fun LoginFiled(viewModel: LoginViewModel ,navController: NavHostController) {
         Text(text = "To Continue , Login Now", color = GrayLight, fontSize = 14.sp)
 
         Spacer(modifier = Modifier.height(100.dp))
-        OutLineTextFiled(viewModel  ,navController)
+        OutLineTextFiled(viewModel, navController)
     }
 }
 
+@OptIn(DelicateCoroutinesApi::class)
 @Composable
 fun OutLineTextFiled(viewModel: LoginViewModel, navController: NavHostController) {
 
@@ -123,18 +140,38 @@ fun OutLineTextFiled(viewModel: LoginViewModel, navController: NavHostController
 
     val state by viewModel.state.collectAsState()
 
+    val context = LocalContext.current
+
     when (state) {
         is LoginState.Idle -> {
             // Show login form
         }
 
         is LoginState.Loading -> {
-            CircularProgressIndicator()
+            val infiniteTransition = rememberInfiniteTransition()
+            val progress by infiniteTransition.animateFloat(
+                initialValue = 0f,
+                targetValue = 1f,
+                animationSpec = infiniteRepeatable(
+                    animation = tween(durationMillis = 3000, easing = LinearEasing),
+                    repeatMode = RepeatMode.Reverse
+                )
+            )
+
+            LinearProgressIndicator(
+                progress = progress,
+                color = PrimaryColor,
+                modifier = Modifier
+                    .height(8.dp)
+                    .clip(RoundedCornerShape(16.dp)),
+            )
         }
 
         is LoginState.Success -> {
             Text((state as LoginState.Success).message)
-            // Navigate to home
+            navController.navigate("Home") {
+                popUpTo("Loading") { inclusive = true }
+            }
         }
 
         is LoginState.Error -> {
@@ -213,6 +250,7 @@ fun OutLineTextFiled(viewModel: LoginViewModel, navController: NavHostController
         Button(
             onClick = {
                 viewModel.login(phone.value, password.value) // Example credentials
+
             }, colors = ButtonColors(
                 containerColor = PrimaryColor,
                 contentColor = Color.White,
