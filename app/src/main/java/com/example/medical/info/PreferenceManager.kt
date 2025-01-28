@@ -1,8 +1,7 @@
 package com.example.medical.info
 
 import android.content.Context
-import android.content.SharedPreferences
-import android.preference.PreferenceManager
+
 
 
 class PreferenceManager (context: Context){
