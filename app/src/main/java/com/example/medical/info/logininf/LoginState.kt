@@ -1,4 +1,4 @@
-package com.example.medical.info
+package com.example.medical.info.logininf
 
 sealed class LoginState {
 

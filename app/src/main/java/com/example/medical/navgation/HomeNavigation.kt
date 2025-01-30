@@ -13,6 +13,7 @@ import com.example.medical.composables.ProfileScreen
 import com.example.medical.composables.RegisterScreen
 import com.example.medical.info.PreferenceManager
 import com.example.medical.model.LoginViewModel
+import com.example.medical.model.ProfileViewModel
 import com.example.medical.repo.LoginRepository
 
 @Composable

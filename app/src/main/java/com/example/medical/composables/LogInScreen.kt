@@ -1,6 +1,5 @@
 package com.example.medical.composables
 
-import android.content.Intent
 import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.RepeatMode
 import androidx.compose.animation.core.animateFloat
@@ -19,24 +18,19 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Phone
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonColors
-import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.ui.AbsoluteAlignment
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -46,23 +40,16 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.unit.Density
-import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.core.content.ContextCompat.startActivity
-import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavHostController
 import com.example.medical.R
-import com.example.medical.info.LoginState
+import com.example.medical.info.logininf.LoginState
 import com.example.medical.model.LoginViewModel
-import com.example.medical.ui.HomeActivity
 import com.example.medical.ui.theme.Black
 import com.example.medical.ui.theme.GrayLight
 import com.example.medical.ui.theme.PrimaryColor
 import kotlinx.coroutines.DelicateCoroutinesApi
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
 
 @Composable
 fun LogInScreen(viewModel: LoginViewModel, navController: NavHostController) {
@@ -128,19 +115,16 @@ fun LoginFiled(viewModel: LoginViewModel, navController: NavHostController) {
     }
 }
 
-@OptIn(DelicateCoroutinesApi::class)
 @Composable
 fun OutLineTextFiled(viewModel: LoginViewModel, navController: NavHostController) {
 
     val phone = remember { mutableStateOf("") }
-    val isValid = phone.value.length >= 3
 
     val password = remember { mutableStateOf("") }
 
 
     val state by viewModel.state.collectAsState()
 
-    val context = LocalContext.current
 
     when (state) {
         is LoginState.Idle -> {
@@ -170,7 +154,7 @@ fun OutLineTextFiled(viewModel: LoginViewModel, navController: NavHostController
         is LoginState.Success -> {
             Text((state as LoginState.Success).message)
             navController.navigate("Home") {
-                popUpTo("Loading") { inclusive = true }
+                popUpTo("LogIn") { inclusive = true }
             }
         }
 

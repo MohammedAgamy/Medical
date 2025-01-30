@@ -3,8 +3,8 @@ package com.example.medical.model
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.medical.data.LoginInput
-import com.example.medical.info.LoginState
+import com.example.medical.data.login_data.LoginInput
+import com.example.medical.info.logininf.LoginState
 import com.example.medical.info.PreferenceManager
 import com.example.medical.repo.LoginRepository
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -53,9 +53,6 @@ class LoginViewModel(
         }
     }
 
-    fun isLogIn() {
-        preferenceManager.setLoggedIn(true)
-        _isLoggedIn.value = true
-    }
+
 
 }

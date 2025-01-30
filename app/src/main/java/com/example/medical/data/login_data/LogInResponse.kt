@@ -1,4 +1,4 @@
-package com.example.medical.data
+package com.example.medical.data.login_data
 
 data class LogInResponse(
     val access_token: String,
