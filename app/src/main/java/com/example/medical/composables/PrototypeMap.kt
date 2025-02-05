@@ -24,19 +24,18 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHostController
 import com.example.medical.R
 import com.example.medical.model.LoginViewModel
-import com.example.medical.ui.HomeActivity
-import com.example.medical.ui.RegisterActivity2
 import com.example.medical.ui.theme.GrayLight
 import com.example.medical.ui.theme.PrimaryColor
 
 @Composable
-fun PrototypeMap(loginViewModel: LoginViewModel) {
+fun PrototypeMap(loginViewModel: LoginViewModel , navHostController:NavHostController) {
     Box(modifier = Modifier.fillMaxSize())
     {
         Background()
-        MapClickable(loginViewModel)
+        MapClickable(loginViewModel , navHostController)
     }
 }
 
@@ -69,7 +68,7 @@ fun Background() {
 
 
 @Composable
-fun MapClickable(loginViewModel:LoginViewModel) {
+fun MapClickable(loginViewModel:LoginViewModel , navHostController: NavHostController) {
     val context = LocalContext.current
 
     //view navPager to start for app
@@ -93,11 +92,13 @@ fun MapClickable(loginViewModel:LoginViewModel) {
             OutlinedButton(
                 onClick = {
                     if (isLoggedIn) {
-                        val intent = Intent(context, HomeActivity::class.java)
-                        context.startActivity(intent)
+                        navHostController.navigate("Home") {
+                            popUpTo("PrototypeMap") { inclusive = true }
+                        }
                     } else {
-                        val intent = Intent(context, RegisterActivity2::class.java)
-                        context.startActivity(intent)
+                        navHostController.navigate("LogIn") {
+                            popUpTo("PrototypeMap") { inclusive = true }
+                        }
                     }
 
                 },

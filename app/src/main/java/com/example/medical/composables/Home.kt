@@ -47,7 +47,7 @@ fun Home(navHostController: NavHostController) {
         Spacer(modifier = Modifier.height(40.dp))
         Header(navHostController)
         Spacer(modifier = Modifier.height(10.dp))
-        DashboardScreen()
+        DashboardScreen(navHostController)
     }
 }
 
@@ -66,7 +66,7 @@ fun Header(navHostController: NavHostController) {
         ) {
             Image(
                 painter = painterResource(R.drawable.newimg),
-                contentDescription = "Header" ,
+                contentDescription = "Header",
                 modifier = Modifier.clickable {
                     navHostController.navigate("Profile") {
                         popUpTo("Home") { inclusive = true }
@@ -98,7 +98,7 @@ fun Header(navHostController: NavHostController) {
 
 
 @Composable
-fun DashboardScreen() {
+fun DashboardScreen(navHostController: NavHostController) {
     val items = listOf(
         DashboardItem(
             "Calls",
@@ -128,9 +128,13 @@ fun DashboardScreen() {
         modifier = Modifier.fillMaxSize(),
         horizontalArrangement = Arrangement.spacedBy(8.dp),
 
-    ) {
+        ) {
         items(items.size) { index ->
-            DashboardCard(item = items[index])
+            DashboardCard(
+                item = items[index],
+                navHostController = navHostController
+            ) // Pass navHostController here
+
         }
     }
 }
@@ -145,13 +149,21 @@ data class DashboardItem(
 
 
 @Composable
-fun DashboardCard(item: DashboardItem) {
+fun DashboardCard(item: DashboardItem, navHostController: NavHostController) {
 
     Card(
         modifier = Modifier
             .padding(8.dp)
             .size(item.size) // Fixed size for uniformity
-            .clickable { /* Handle click */ },
+            .clickable {
+                // Handle click and navigate to the screen based on the card
+                when (item.title) {
+                    "Calls" -> navHostController.navigate("CallsScreen")
+                    "Tasks" -> navHostController.navigate("TasksScreen")
+                    "Reports" -> navHostController.navigate("Reports")
+                    "Attendance - Leaving" -> navHostController.navigate("AttendanceScreen")
+                }
+            },
         shape = RoundedCornerShape(16.dp), // Rounded edges
         colors = CardDefaults.cardColors(item.color),
         elevation = CardDefaults.elevatedCardElevation(8.dp)

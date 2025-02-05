@@ -3,6 +3,7 @@ package com.example.medical.composables
 import android.text.Layout
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 
 import androidx.compose.foundation.shape.CircleShape
@@ -49,7 +50,7 @@ fun ProfileScreen(navHostController: NavHostController) {
 
     when (state) {
         is ProfileState.Loading -> CircularProgressIndicator()
-        is ProfileState.Success -> ProfileContent((state as ProfileState.Success).profile)
+        is ProfileState.Success -> ProfileContent((state as ProfileState.Success).profile, navHostController)
         is ProfileState.Error -> Text("Error: ${(state as ProfileState.Error).message}")
         else -> {}
     }
@@ -58,7 +59,7 @@ fun ProfileScreen(navHostController: NavHostController) {
 
 
 @Composable
-fun ProfileContent(data: Profle) {
+fun ProfileContent(data: Profle,navHostController: NavHostController) {
 
     Box(
         modifier = Modifier
@@ -79,7 +80,11 @@ fun ProfileContent(data: Profle) {
                     imageVector = Icons.Default.ArrowBack,
                     contentDescription = "Back",
                     tint = Color.White,
-                    modifier = Modifier.size(24.dp)
+                    modifier = Modifier.size(24.dp).clickable {
+                        navHostController.navigate("AllReports") {
+                            popUpTo("Home") { inclusive = true }
+                        }
+                    }
                 )
                 Spacer(modifier = Modifier.width(8.dp))
                 Text(

@@ -5,7 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.medical.info.profileinfo.ProfileIntent
 import com.example.medical.info.profileinfo.ProfileState
-import com.example.medical.repo.ApiService
+import com.example.medical.client.ApiService
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch

@@ -1,6 +1,5 @@
 package com.example.medical.client
 
-import com.example.medical.repo.ApiService
 import com.google.gson.GsonBuilder
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
