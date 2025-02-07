@@ -7,6 +7,8 @@ import com.example.medical.data.reports_data.AllReports
 import com.example.medical.data.reports_data.CreateReport
 import com.example.medical.data.reports_data.CreateReportData
 import com.example.medical.data.reports_data.Data
+import com.example.medical.data.taks_data.AllTasks
+import com.example.medical.data.taks_data.CreateTaskData
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.Field
@@ -31,15 +33,29 @@ interface ApiService {
     @GET("reports")
     suspend fun getAllReports(
         @Header("Authorization") token: String,
-    ):AllReports
-
+    ): AllReports
 
 
     @POST("reports")
     suspend fun createReport(
         @Header("Authorization") token: String,
-        @Body createReport:CreateReportData
-    ):Response<CreateReportData>
+        @Body createReport: CreateReportData
+    ): Response<CreateReportData>
+
+
+    @GET("tasks")
+    suspend fun getAllTasks(
+        @Header("Authorization") token: String,
+    ): AllTasks
+
+
+    @POST("tasks")
+    suspend fun createTask(
+        @Header("Authorization") token: String,
+        @Body createTask: CreateTaskData
+    ): Response<CreateTaskData>
+
+
 }
 
 

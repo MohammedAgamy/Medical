@@ -159,7 +159,7 @@ fun DashboardCard(item: DashboardItem, navHostController: NavHostController) {
                 // Handle click and navigate to the screen based on the card
                 when (item.title) {
                     "Calls" -> navHostController.navigate("CallsScreen")
-                    "Tasks" -> navHostController.navigate("TasksScreen")
+                    "Tasks" -> navHostController.navigate("Task")
                     "Reports" -> navHostController.navigate("Reports")
                     "Attendance - Leaving" -> navHostController.navigate("AttendanceScreen")
                 }

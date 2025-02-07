@@ -8,19 +8,23 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.medical.composables.AllReports
 import com.example.medical.composables.CreateReportScreen
+import com.example.medical.composables.CreateTaskScreen
 import com.example.medical.composables.Home
 import com.example.medical.composables.LoadingScreen
 import com.example.medical.composables.LogInScreen
 import com.example.medical.composables.ProfileScreen
 import com.example.medical.composables.PrototypeMap
 import com.example.medical.composables.RegisterScreen
+import com.example.medical.composables.TasksScreen
 import com.example.medical.info.PreferenceManager
 import com.example.medical.model.CreateReportViewModel
+import com.example.medical.model.CreateTaskViewModel
 import com.example.medical.model.LoginViewModel
 import com.example.medical.model.ReportsViewModel
 import com.example.medical.repo.LoginRepository
 import com.example.medical.repo.repo_impl.AllReportImp
 import com.example.medical.repo.repo_impl.CreateRepoImp
+import com.example.medical.repo.repo_impl.CreateTaskImpl
 
 
 @Composable
@@ -58,6 +62,16 @@ fun AppNavigation() {
                     CreateRepoImp()
                 )
             )
+
         }
+        composable("Task") { TasksScreen(navController) }
+        composable("CreateTask") {
+            CreateTaskScreen(
+                navController, CreateTaskViewModel(
+                    CreateTaskImpl()
+                )
+            )
+        }
+
     }
 }
